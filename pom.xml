@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.kohsuke</groupId>
+  <groupId>com.progressor</groupId>
   <artifactId>github-api</artifactId>
   <version>1.129-SNAPSHOT</version>
   <name>GitHub API for Java</name>
@@ -15,20 +15,11 @@
   </scm>
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-    </snapshotRepository>
     <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Release Repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <id>github</id>
+      <name>GitHub ProgressorHQ Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/progressorhq/github-api</url>
     </repository>
-    <site>
-      <id>github-pages</id>
-      <url>gitsite:git@github.com/hub4j/${project.artifactId}.git</url>
-    </site>
   </distributionManagement>
 
   <properties>
@@ -100,108 +91,6 @@
           <version>1.6</version>
         </plugin>
         <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.6</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-              <configuration>
-                <propertyName>jacoco.surefire.argLine</propertyName>
-              </configuration>
-            </execution>
-            <!-- attached to Maven test phase -->
-            <execution>
-              <id>report</id>
-              <phase>test</phase>
-              <goals>
-                <goal>report</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>check</id>
-              <phase>test</phase>
-              <goals>
-                <goal>check</goal>
-              </goals>
-              <configuration>
-                <rules>
-                  <rule>
-                    <element>BUNDLE</element>
-                    <limits>
-                      <limit>
-                        <counter>METHOD</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>${jacoco.coverage.target.bundle.method}</minimum>
-                      </limit>
-                    </limits>
-                  </rule>
-                  <rule>
-                    <!--We end up with chatty logs, but it shows us which particular classes    -->
-                    <!--are lacking in coverage. If this is too much, just remove the           -->
-                    <!--<element>CLASS</element> tag below.                                     -->
-                    <element>CLASS</element>
-                    <limits>
-                      <limit>
-                        <counter>METHOD</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>${jacoco.coverage.target.class.method}</minimum>
-                      </limit>
-                    </limits>
-                    <excludes>
-                      <!-- Code implemented externally -->
-                      <exclude>org.kohsuke.github.extras.okhttp3.ObsoleteUrlFactory.**</exclude>
-                      <exclude>org.kohsuke.github.extras.okhttp3.ObsoleteUrlFactory</exclude>
-
-                      <!-- Sample only -->
-                      <exclude>org.kohsuke.github.example.*</exclude>
-
-
-                      <!-- Deprecated -->
-                      <exclude>org.kohsuke.github.extras.OkHttpConnector</exclude>
-                      <exclude>org.kohsuke.github.extras.OkHttp3Connector</exclude>
-                      <exclude>org.kohsuke.github.EnforcementLevel</exclude>
-                      <exclude>org.kohsuke.github.GHPerson.1</exclude>
-                      
-                      <!-- TODO: Some coverage, but more needed -->
-                      <exclude>org.kohsuke.github.GHPullRequestReviewBuilder.DraftReviewComment</exclude>
-                      <exclude>org.kohsuke.github.GHIssue.PullRequest</exclude>
-                      <exclude>org.kohsuke.github.GHCommitSearchBuilder</exclude>
-                      <exclude>org.kohsuke.github.GHRepositorySearchBuilder</exclude>
-                      <exclude>org.kohsuke.github.GHUserSearchBuilder</exclude>
-
-                      <!-- TODO: These still need test coverage -->
-                      <exclude>org.kohsuke.github.GHBranchProtection.RequiredSignatures</exclude>
-                      <exclude>org.kohsuke.github.GHBranchProtectionBuilder.Restrictions</exclude>
-                      <exclude>org.kohsuke.github.GHBranchProtection.Restrictions</exclude>
-                      <exclude>org.kohsuke.github.GHCommentAuthorAssociation</exclude>
-                      <exclude>org.kohsuke.github.GHCompare.Commit</exclude>
-                      <exclude>org.kohsuke.github.GHCompare.InnerCommit</exclude>
-                      <exclude>org.kohsuke.github.GHCompare.Tree</exclude>
-                      <exclude>org.kohsuke.github.GHCompare.User</exclude>
-                      <exclude>org.kohsuke.github.GHCompare</exclude>
-                      <exclude>org.kohsuke.github.GHDeployKey</exclude>
-                      <exclude>org.kohsuke.github.GHEmail</exclude>
-                      <exclude>org.kohsuke.github.GHInvitation</exclude>
-                      <exclude>org.kohsuke.github.GHPullRequestCommitDetail.Authorship</exclude>
-                      <exclude>org.kohsuke.github.GHPullRequestCommitDetail.Commit</exclude>
-                      <exclude>org.kohsuke.github.GHPullRequestCommitDetail.CommitPointer</exclude>
-                      <exclude>org.kohsuke.github.GHPullRequestCommitDetail.Tree</exclude>
-                      <exclude>org.kohsuke.github.GHPullRequestCommitDetail</exclude>
-                      <exclude>org.kohsuke.github.GHPullRequestFileDetail</exclude>
-                      <exclude>org.kohsuke.github.GHReleaseUpdater</exclude>
-                      <exclude>org.kohsuke.github.GHRequestedAction</exclude>
-                      <exclude>org.kohsuke.github.GHVerifiedKey</exclude>
-                    </excludes>
-                  </rule>
-                </rules>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.2.0</version>
@@ -209,17 +98,6 @@
             <source>8</source>
             <failOnWarnings>true</failOnWarnings>
             <doclint>all</doclint>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.sonatype.plugins</groupId>
-          <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>1.6.8</version>
-          <extensions>true</extensions>
-          <configuration>
-            <serverId>sonatype-nexus-staging</serverId>
-            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-            <autoReleaseAfterClose>true</autoReleaseAfterClose>
           </configuration>
         </plugin>
       </plugins>
@@ -240,10 +118,6 @@
           <releaseProfiles>release</releaseProfiles>
           <goals>deploy</goals>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
