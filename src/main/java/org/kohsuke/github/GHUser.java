@@ -26,7 +26,12 @@ package org.kohsuke.github;
 import com.infradna.tool.bridge_method_injector.WithBridgeMethods;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static java.lang.String.format;
+import static org.kohsuke.github.internal.Previews.INERTIA;
 
 /**
  * Represents an user of GitHub.
@@ -218,7 +223,7 @@ public class GHUser extends GHPerson {
      */
     public PagedIterable<GHEventInfo> listEvents() throws IOException {
         return root.createRequest()
-                .withUrlPath(String.format("/users/%s/events", login))
+                .withUrlPath(format("/users/%s/events", login))
                 .toIterable(GHEventInfo[].class, item -> item.wrapUp(root));
     }
 
@@ -231,8 +236,50 @@ public class GHUser extends GHPerson {
      */
     public PagedIterable<GHGist> listGists() throws IOException {
         return root.createRequest()
-                .withUrlPath(String.format("/users/%s/gists", login))
+                .withUrlPath(format("/users/%s/gists", login))
                 .toIterable(GHGist[].class, null);
+    }
+
+    /**
+     * Returns open projects of this user.
+     *
+     * <p>If the user represents an {@linkplain #getType() organization}, still returns its project list.
+     *
+     * @return the user project list
+     * @throws IOException
+     *         in case something goes wrong when fetching the project list
+     */
+    public PagedIterable<GHProject> listProjects() throws IOException {
+        return listProjects(GHProject.ProjectStateFilter.OPEN);
+    }
+
+    /**
+     * Returns projects of this user which have the passed {@code status}.
+     *
+     * <p>If the user represents an {@linkplain #getType() organization}, still returns its project list.
+     *
+     * @param status
+     *            the status filter
+     * @return the user project list
+     * @throws IOException
+     *         in case something goes wrong when fetching the project list
+     */
+    public PagedIterable<GHProject> listProjects(GHProject.ProjectStateFilter status) throws IOException {
+        return root.createRequest()
+                .withPreview(INERTIA)
+                .with("state", status)
+                .withUrlPath(projectsApiUrl())
+                .toIterable(GHProject[].class, item -> item.wrap(root));
+    }
+
+    private String projectsApiUrl() {
+        if ("User".equalsIgnoreCase(type)) {
+            return getApiTailUrl("projects");
+        } else if ("Organization".equalsIgnoreCase(type)) {
+            return format("/orgs/%s/projects", login);
+        } else {
+            throw new IllegalStateException(format("Unexpected user type: `%s`.", type));
+        }
     }
 
     @Override
