@@ -235,19 +235,18 @@ public class GHUser extends GHPerson {
      *             the io exception
      */
     public PagedIterable<GHGist> listGists() throws IOException {
-        return root.createRequest()
-                .withUrlPath(format("/users/%s/gists", login))
-                .toIterable(GHGist[].class, null);
+        return root.createRequest().withUrlPath(format("/users/%s/gists", login)).toIterable(GHGist[].class, null);
     }
 
     /**
      * Returns open projects of this user.
      *
-     * <p>If the user represents an {@linkplain #getType() organization}, still returns its project list.
+     * <p>
+     * If the user represents an {@linkplain #getType() organization}, still returns its project list.
      *
      * @return the user project list
      * @throws IOException
-     *         in case something goes wrong when fetching the project list
+     *             in case something goes wrong when fetching the project list
      */
     public PagedIterable<GHProject> listProjects() throws IOException {
         return listProjects(GHProject.ProjectStateFilter.OPEN);
@@ -256,13 +255,14 @@ public class GHUser extends GHPerson {
     /**
      * Returns projects of this user which have the passed {@code state}.
      *
-     * <p>If the user represents an {@linkplain #getType() organization}, still returns its project list.
+     * <p>
+     * If the user represents an {@linkplain #getType() organization}, still returns its project list.
      *
      * @param state
      *            the state filter
      * @return the user project list
      * @throws IOException
-     *         in case something goes wrong when fetching the project list
+     *             in case something goes wrong when fetching the project list
      */
     public PagedIterable<GHProject> listProjects(GHProject.ProjectStateFilter state) throws IOException {
         return root.createRequest()
