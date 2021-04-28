@@ -41,4 +41,4 @@ To publish the fork to GitHub packages:
 </settings>
 ```
 
-2. Invoke `mvn deploy` from project root.
+2. Invoke `./mvnw deploy` from the project root.
