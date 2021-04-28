@@ -1,9 +1,44 @@
 # Java API for GitHub
 
-[![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/org.kohsuke/github-api?server=https%3A%2F%2Foss.sonatype.org)](https://mvnrepository.com/artifact/org.kohsuke/github-api)
-[![Join the chat at https://gitter.im/hub4j/github-api](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hub4j/github-api?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-![CI](https://github.com/hub4j/github-api/workflows/CI/badge.svg?branch=main)
+Fork of https://github.com/hub4j/github-api.
 
+To publish the fork to GitHub packages:
 
+1. Create/modify `~/.m2/settings.xml` to contain the following:
 
-See https://github-api.kohsuke.org/ for more details
+```xml
+
+<settings>
+
+    <!--... -->
+
+    <activeProfiles>
+        <activeProfile>github</activeProfile>
+    </activeProfiles>
+
+    <profiles>
+        <profile>
+            <id>github</id>
+            <repositories>
+                <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/progressorhq/*</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+    <servers>
+        <server>
+            <id>github</id>
+            <username>*YOUR_USERNAME*</username>
+            <password>*YOUR_GITHUB_TOKEN*</password>
+        </server>
+    </servers>
+</settings>
+```
+
+2. Invoke `./mvnw deploy` from the project root.
