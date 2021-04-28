@@ -254,20 +254,20 @@ public class GHUser extends GHPerson {
     }
 
     /**
-     * Returns projects of this user which have the passed {@code status}.
+     * Returns projects of this user which have the passed {@code state}.
      *
      * <p>If the user represents an {@linkplain #getType() organization}, still returns its project list.
      *
-     * @param status
-     *            the status filter
+     * @param state
+     *            the state filter
      * @return the user project list
      * @throws IOException
      *         in case something goes wrong when fetching the project list
      */
-    public PagedIterable<GHProject> listProjects(GHProject.ProjectStateFilter status) throws IOException {
+    public PagedIterable<GHProject> listProjects(GHProject.ProjectStateFilter state) throws IOException {
         return root.createRequest()
                 .withPreview(INERTIA)
-                .with("state", status)
+                .with("state", state)
                 .withUrlPath(projectsApiUrl())
                 .toIterable(GHProject[].class, item -> item.wrap(root));
     }
