@@ -17,7 +17,12 @@ import static org.kohsuke.github.internal.Previews.INERTIA;
  *
  * @author Kohsuke Kawaguchi
  */
+@SuppressWarnings({ "UnusedDeclaration" })
 public class GHOrganization extends GHPerson {
+
+    private boolean has_organization_projects;
+    private boolean has_repository_projects;
+
     GHOrganization wrapUp(GitHub root) {
         return (GHOrganization) super.wrapUp(root);
     }
@@ -268,6 +273,28 @@ public class GHOrganization extends GHPerson {
         } catch (IOException ignore) {
             return false;
         }
+    }
+
+    /**
+     * Returns {@code true} if this organization has `Projects` feature enabled.
+     *
+     * <p>
+     * This flag doesn't guarantee the actual presence of any projects. It just says whether this functionality
+     * is enabled at all.
+     */
+    public boolean hasOrganizationProjects() {
+        return has_organization_projects;
+    }
+
+    /**
+     * Returns {@code true} if this organization has at least one repository with `Projects` feature enabled.
+     *
+     * <p>
+     * This flag doesn't guarantee the actual presence of any projects. It just says whether this functionality
+     * is enabled for at least a single repository in the organization.
+     */
+    public boolean hasRepositoryProjects() {
+        return has_repository_projects;
     }
 
     /**
@@ -536,7 +563,7 @@ public class GHOrganization extends GHPerson {
      *             the io exception
      */
     public List<GHRepository> getRepositoriesWithOpenPullRequests() throws IOException {
-        List<GHRepository> r = new ArrayList<GHRepository>();
+        List<GHRepository> r = new ArrayList<>();
         for (GHRepository repository : listRepositories(100)) {
             repository.wrap(root);
             List<GHPullRequest> pullRequests = repository.getPullRequests(GHIssueState.OPEN);
