@@ -283,8 +283,7 @@ public class GHOrganization extends GHPerson {
     /**
      * Returns {@code true} if this organization can use projects.
      *
-     * <p>
-     * This flag doesn't guarantee the actual presence of any projects.
+     * <p> This flag doesn't guarantee the actual presence of any projects.
      * It just says whether this functionality is enabled at all.
      */
     public boolean hasOrganizationProjects() {
@@ -294,8 +293,7 @@ public class GHOrganization extends GHPerson {
     /**
      * Returns {@code true} if repositories that belong to the organization can use projects.
      *
-     * <p>
-     * This flag doesn't guarantee the actual presence of any projects. It just says
+     * <p> This flag doesn't guarantee the actual presence of any projects. It just says
      * whether this functionality is enabled at all.
      */
     public boolean hasRepositoryProjects() {
