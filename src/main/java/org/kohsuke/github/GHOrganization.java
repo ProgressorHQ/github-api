@@ -287,7 +287,7 @@ public class GHOrganization extends GHPerson {
     }
 
     /**
-     * Returns {@code true} if projects that belong to the organization can use projects.
+     * Returns {@code true} if repositories that belong to the organization can use projects.
      *
      * <p>
      * This flag doesn't guarantee the actual presence of any projects. It just says
