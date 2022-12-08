@@ -20,6 +20,11 @@ import static org.kohsuke.github.internal.Previews.INERTIA;
 @SuppressWarnings({ "UnusedDeclaration" })
 public class GHOrganization extends GHPerson {
 
+    /*
+    The fields below are named in Snake case intentionally. Instances of this class
+    are parsed from JSON via databinding. Field names should strictly map to JSON fields.
+     */
+
     private boolean has_organization_projects;
     private boolean has_repository_projects;
 
